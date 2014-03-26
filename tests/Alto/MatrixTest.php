@@ -73,7 +73,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testSetANonNumericValue() {
-		$this->setExpectedException('\Alto\Matrix\Exception\InvalidDataException', 'Value is not a numeric');
+		$this->setExpectedException('\Alto\Matrix\Exception\NotNumericException', 'Value is not a numeric');
 
 		$data = [
 			[1, 3],
@@ -126,6 +126,19 @@ class MatrixTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertTrue($matrix !== $new_matrix);
 		$this->assertEquals($expect, $new_matrix->getData());
+	}
+
+	public function testMultiplyByInvalidValue() {
+		$this->setExpectedException('\Alto\Matrix\Exception\NotNumericException', 'Value is not a numeric');
+
+		$data = [
+			[1, 3],
+			[2, 5],
+			[50, 30]
+		];
+
+		$matrix = new Matrix($data);
+		$new_matrix = $matrix->multiply('invalid');
 	}
 
 }
