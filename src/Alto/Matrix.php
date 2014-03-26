@@ -60,7 +60,7 @@ class Matrix {
 		$this->validateIndexBoundary($row_index, $col_index);
 
 		if (!is_numeric($value)) {
-			throw new Matrix\Exception\InvalidDataException("Value is not a numeric");
+			throw new Matrix\Exception\NotNumericException("Value is not a numeric");
 		}
 
 		$this->_data[$row_index][$col_index] = $value;
@@ -91,6 +91,10 @@ class Matrix {
 	 * @return Matrix new matrix
 	 */
 	public function multiply($factor) {
+		if (!is_numeric($factor)) {
+			throw new Matrix\Exception\NotNumericException("Value is not a numeric");
+		}
+
 		$data = array_map(function($row) use ($factor) {
 			return array_map(function($value) use ($factor) {
 				return $value * $factor;
@@ -171,7 +175,7 @@ class Matrix {
 
 			foreach ($row as $value) {
 				if (!is_numeric($value)) {
-					throw new Matrix\Exception\InvalidDataException("Values in the matrix are not all of numeric type");
+					throw new Matrix\Exception\NotNumericException("Values in the matrix are not all of numeric type");
 				}
 			}
 		}
