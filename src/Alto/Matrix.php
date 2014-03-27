@@ -104,6 +104,10 @@ class Matrix {
 		return new self($data);
 	}
 
+	public function isSameSize(Matrix $matrix) {
+		return ($matrix->getNumColumns() == $this->getNumColumns() && $matrix->getNumRows() == $this->getNumRows());
+	}
+
 	/**
 	 * Set the data into the matrix
 	 * 

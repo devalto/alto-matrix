@@ -141,4 +141,33 @@ class MatrixTest extends \PHPUnit_Framework_TestCase {
 		$new_matrix = $matrix->multiply('invalid');
 	}
 
+	public function testTwoMatrixAreOfTheSameSize() {
+		$matrix1 = new Matrix([
+			[1, 3],
+			[2, 5],
+			[50, 30]
+		]);
+		$matrix2 = new Matrix([
+			[3, 6],
+			[4, 9],
+			[50, 31]
+		]);
+
+		$this->assertTrue($matrix1->isSameSize($matrix2));
+	}
+
+	public function testTwoMatrixAreNotOfTheSameSize() {
+		$matrix1 = new Matrix([
+			[1, 3],
+			[2, 5]
+		]);
+		$matrix2 = new Matrix([
+			[3, 6],
+			[4, 9],
+			[50, 31]
+		]);
+
+		$this->assertFalse($matrix1->isSameSize($matrix2));
+	}
+
 }
