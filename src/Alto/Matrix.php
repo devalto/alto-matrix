@@ -95,9 +95,27 @@ class Matrix {
 			throw new Matrix\Exception\NotNumericException("Value is not a numeric");
 		}
 
-		$data = array_map(function($row) use ($factor) {
-			return array_map(function($value) use ($factor) {
-				return $value * $factor;
+		return $this->map(function($value) use ($factor) {
+			return $value * $factor;
+		});
+	}
+
+	/**
+	 * Apply a function to every element of the matrix
+	 * 
+	 * @param  callable $callback function to apply
+	 * @return Matrix
+	 */
+	public function map(callable $callback) {
+		$data = array_map(function($row) use ($callback) {
+			return array_map(function($value) use ($callback) {
+				$new_value = $callback($value);
+				
+				if (!is_numeric($new_value)) {
+					throw new Matrix\Exception\NotNumericException("Value returned by map function is not a numeric");
+				}
+
+				return $new_value;
 			}, $row);
 		}, $this->_data);
 
