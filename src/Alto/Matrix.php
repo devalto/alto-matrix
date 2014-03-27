@@ -104,6 +104,12 @@ class Matrix {
 		return new self($data);
 	}
 
+	/**
+	 * Compares the size of two matrix
+	 * 
+	 * @param  Matrix  $matrix Matrix to compare to
+	 * @return boolean
+	 */
 	public function isSameSize(Matrix $matrix) {
 		return ($matrix->getNumColumns() == $this->getNumColumns() && $matrix->getNumRows() == $this->getNumRows());
 	}
