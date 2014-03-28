@@ -141,6 +141,55 @@ class MatrixTest extends \PHPUnit_Framework_TestCase {
 		$new_matrix = $matrix->multiply('invalid');
 	}
 
+	public function testTwoMatrixAreOfTheSameSize() {
+		$matrix1 = new Matrix([
+			[1, 3],
+			[2, 5],
+			[50, 30]
+		]);
+		$matrix2 = new Matrix([
+			[3, 6],
+			[4, 9],
+			[50, 31]
+		]);
+
+		$this->assertTrue($matrix1->isSameSize($matrix2));
+	}
+
+	public function testTwoMatrixAreNotOfTheSameSize() {
+		$matrix1 = new Matrix([
+			[1, 3],
+			[2, 5]
+		]);
+		$matrix2 = new Matrix([
+			[3, 6],
+			[4, 9],
+			[50, 31]
+		]);
+
+		$this->assertFalse($matrix1->isSameSize($matrix2));
+	}
+
+	public function testAddMatrix() {
+		$matrix1 = new Matrix([
+			[1, 3, 4],
+			[2, 5, 5]
+		]);
+		$matrix2 = new Matrix([
+			[3, 6, 1],
+			[4, 9, 3]
+		]);
+
+		$expected = [
+			[4, 9, 5],
+			[6, 14, 8]
+		];
+
+		$matrix = $matrix1->addMatrix($matrix2);
+
+		$this->assertEquals($expected, $matrix->getData());
+	}
+
 	public function testMapEveryElementToAFunction() {
 		$data = [
 			[1, 3],
@@ -162,6 +211,36 @@ class MatrixTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected, $matrix->getData());
 	}
 
+
+	public function testAddMatrixWithDifferentSize() {
+		$this->setExpectedException('\Alto\Matrix\Exception\InvalidOperationException', 'Matrix is not of the same size');
+
+		$matrix1 = new Matrix([
+			[1, 3, 4],
+			[2, 5, 5]
+		]);
+		$matrix2 = new Matrix([
+			[3, 6],
+			[4, 9]
+		]);
+
+		$matrix1->addMatrix($matrix2);
+	}
+
+	public function testCreateEmptyMatrix() {
+		$matrix = Matrix::createEmptyMatrix(4, 5);
+
+		$this->assertEquals(4, $matrix->getNumRows());
+		$this->assertEquals(5, $matrix->getNumColumns());
+
+		for ($r = 0; $r < $matrix->getNumRows(); $r++) {
+			for ($c = 0; $c < $matrix->getNumColumns(); $c++) {
+				$this->assertEquals(0, $matrix->getAt($r, $c));
+			}
+		}
+
+	}
+
 	public function testMapFunctionReturnsInvalidValue() {
 		$this->setExpectedException('\Alto\Matrix\Exception\NotNumericException', 'Value returned by map function is not a numeric');
 
@@ -174,6 +253,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase {
 		$matrix->map(function($value) {
 			return 'invalid';
 		});
+
 	}
 
 }
