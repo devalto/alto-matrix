@@ -190,6 +190,28 @@ class MatrixTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected, $matrix->getData());
 	}
 
+	public function testMapEveryElementToAFunction() {
+		$data = [
+			[1, 3],
+			[2, 5],
+			[50, 30]
+		];
+
+		$expected = [
+			[2, 4],
+			[3, 6],
+			[51, 31]
+		];
+
+		$matrix = new Matrix($data);
+		$matrix = $matrix->map(function($value) {
+			return $value + 1;
+		});
+
+		$this->assertEquals($expected, $matrix->getData());
+	}
+
+
 	public function testAddMatrixWithDifferentSize() {
 		$this->setExpectedException('\Alto\Matrix\Exception\InvalidOperationException', 'Matrix is not of the same size');
 
@@ -216,6 +238,22 @@ class MatrixTest extends \PHPUnit_Framework_TestCase {
 				$this->assertEquals(0, $matrix->getAt($r, $c));
 			}
 		}
+
+	}
+
+	public function testMapFunctionReturnsInvalidValue() {
+		$this->setExpectedException('\Alto\Matrix\Exception\NotNumericException', 'Value returned by map function is not a numeric');
+
+		$data = [
+			[1, 3],
+			[2, 5]
+		];
+
+		$matrix = new Matrix($data);
+		$matrix->map(function($value) {
+			return 'invalid';
+		});
+
 	}
 
 }
