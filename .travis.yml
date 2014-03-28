@@ -5,4 +5,4 @@ php:
   - hhvm
 script: vendor/bin/phpunit
 install:
-  - composer install
+  - composer install --dev
