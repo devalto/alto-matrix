@@ -122,6 +122,13 @@ class Matrix {
 		return new self($data);
 	}
 
+	/**
+	 * Add a matrix with another one
+	 *
+	 * Add values from the two matrix an return a new one with the result. 
+	 * 
+	 * @param Matrix $matrix_to_add Matrix to add to $this
+	 */
 	public function addMatrix(Matrix $matrix_to_add) {
 		if (!$this->isSameSize($matrix_to_add)) {
 			throw new Matrix\Exception\InvalidOperationException("Matrix is not of the same size");
