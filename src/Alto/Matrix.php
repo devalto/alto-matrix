@@ -104,6 +104,21 @@ class Matrix {
 		return new self($data);
 	}
 
+	public function addMatrix(Matrix $matrix_to_add) {
+		if (!$this->isSameSize($matrix_to_add)) {
+			throw new Matrix\Exception\InvalidOperationException("Matrix is not of the same size");
+		}
+
+		$total_matrix = self::createEmptyMatrix($this->getNumRows(), $this->getNumColumns());
+		for ($i = 0; $i < $this->getNumRows(); $i++) {
+			for ($j = 0; $j < $this->getNumColumns(); $j++) {
+				$total_matrix->setAt($i, $j, $this->getAt($i, $j) + $matrix_to_add->getAt($i, $j));
+			}
+		}
+
+		return $total_matrix;
+	}
+
 	/**
 	 * Compares the size of two matrix
 	 * 
@@ -145,6 +160,13 @@ class Matrix {
 		return $this->_data;
 	}
 
+	/**
+	 * Validate that a row and column index is valid in the matrix
+	 *
+	 * @param  int $row_index Row index
+	 * @param  int $col_index Column index
+	 * @return bool
+	 */
 	public function validateIndexBoundary($row_index, $col_index) {
 		if (!($row_index >= 0 && $row_index < $this->_num_rows && $col_index >= 0 && $col_index < $this->_num_cols)) {
 			throw new Matrix\Exception\IndexOutOfBoundException("Either the row index or the column index is out of bound");
@@ -189,6 +211,26 @@ class Matrix {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Creates an matrix with 0 value to all element
+	 * 
+	 * @param  int $num_rows    Number of rows
+	 * @param  int $num_columns Number of columns
+	 * @return Matrix Empty matrix
+	 */
+	public static function createEmptyMatrix($num_rows, $num_columns) {
+		$data = array();
+		for ($i = 0; $i < $num_rows; $i++) {
+			$row = array();
+			for ($j = 0; $j < $num_columns; $j++) {
+				$row[] = 0;
+			}
+			$data[] = $row;
+		}
+
+		return new Matrix($data);
 	}
 
 }
